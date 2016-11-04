@@ -1,0 +1,37 @@
+################################################################################
+#
+# name: DAGMCSourceTesting.jou
+# auth: Zach Hartwig
+# mail: hartwig@psfc.mit.edu
+# date: 03 Nov 16
+#
+# desc: Cubit journal file to create a very simple geometry. A single
+#       cube (1000 cm on a side) is placed with its center at the
+#       origin (0,0,0). The cube then surrounded by the standard DAGMC
+#       graveyard. The purpose of this simple geometry is to evaluate
+#       the difficulty in using custom MCNP source.F90 files with
+#       DAGMC geometry.
+#
+# 2run: cubit -batch -nographics -nojournal -information off DAGMCSourceTesting.jou
+#
+################################################################################
+
+# Create a single volume at the origin
+brick x 1000
+
+# Create the graveyard
+brick x 1200
+brick x 1250
+subtract vol 2 from vol 3
+	 
+# Assign materials from the custom PyNE HDF5 database
+group "mat:CuCrZr" add volume 1
+group "mat:Graveyard" add volume 4
+
+# Imprint/merge
+imprint body all
+merge all
+
+# Export ACIS formatted file
+set attribute on
+export acis "DAGMCSourceTesting.sat" overwrite

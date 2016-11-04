@@ -1,0 +1,50 @@
+DAGMCSourceTesting Input Deck (DAGMCNP5-1.60)
+C
+C ******************************************************************************
+C
+C name: DAGMCSourceTesting.mcnp
+C date: 04 Nov 16
+C auth: Zach Hartwig
+C mail: hartwig@psfc.mit.edu
+C
+C desc: This DAGMCNP5 input deck provides the few required input to run
+C       the DAGMCSourceTesting model. Note that a default MCNP SDEF source
+C       can be switched on (MCNP source.F90 is not used) or off (MCNP
+C       source.F90 is used).
+C
+C ******************************************************************************
+C
+C **** DAGMCNP5 ****
+C
+C   DAGMC completely handles a large majority of native MCNP
+C   functions. Thus, this deck includes
+C   --> No cell cards 
+C   --> No surface cards
+C   --> No blank line
+C   --> No material cards
+C
+C **** DAGMCNP5 ****
+C
+C *******************************************************************************
+C                                 Source Cards
+C *******************************************************************************
+C
+C If the following SDEF source is:
+C   Commented out == MCNP source.F90 will be used
+C   Not commented out == MCNP source.F90 is not used; SDEF is used
+C
+C sdef pos=0 0 0 erg=14.1 par=1 cel=1
+C
+C *******************************************************************************
+C                            Mode and Physics Cards
+C *******************************************************************************
+C
+void
+mode n p
+C
+C *******************************************************************************
+C                                   Run Cards
+C *******************************************************************************
+C
+nps 10000
+C

@@ -1,0 +1,50 @@
+# Self-contained example for issues with DAGMC geometry + MCNP source.F90
+
+Auth: Zach Hartwig  
+Mail: hartwig@psfc.mit.edu  
+Date: 04 Nov 16
+
+
+## Summary
+
+There appears to be an issue using a user-defined particle source (via
+compilation of the user-implemented source.F90 MCNP source code file)
+with DAGMC geometry. I am not certain if this is a bug (either in MCNP
+or DAGMC) or something obvious that I am missing/not correctly
+implementing in MCPN input deck or DAGMC preprocessing steps.
+
+The main issue is the following: When a user-defined source.F90 is
+used with DAGMC geometry, MCNP tracking fails very quickly within the
+first few particles with the following message:
+
+  ```
+  bad trouble in subroutine hstory of mcrun
+
+  source particle no.           12
+
+  starting random number =      148359214513709
+
+  the weight of the current particle is zero or less.
+  ```
+
+Note that if the identical particle distribution is specified via the
+standard SDEF source cards (replacing and not using the source.F90)
+then everything works perfectly. Also note that this issue *only
+appears with cells that have material defined for them*. The use of
+the "void" card causes the run to continue to completion without
+errors.
+
+
+## How to replicate the issue / run the model
+
+The included source/source.F90 should be included in the DAGMC MCNP5
+source code directory and compiled into the DAGMC executable. Then,
+preprocessing the model full (See "prepareModel.sh") with DAGMC best
+practices and running it will trigger the issue (if the MCNP SDEF card
+has been commented out on the "DAGMCSourceTesting.mcnp" deck
+
+The following scripts are useful
+
+ 1. The "prepareModel.sh" script performs all DAGMC preprocessing
+ 2. The "runModel.sh" script runs the DAGMC calculation
+ 3. The "cleanPrep.sh" and "cleanModel.sh" delete transient files
